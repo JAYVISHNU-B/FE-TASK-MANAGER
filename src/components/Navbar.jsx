@@ -17,7 +17,7 @@ const Navbar = ({ user, onLogout }) => {
       <div>
         {user ? (
           <>
-            <span className="mr-4">{`Hello, ${user.username}`}</span>
+            <span className="mr-4">{`Hello, ${user.email}`}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500 px-3 py-1 rounded"

@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios
+import { toast } from 'react-toastify'; // Import toast for error/success messages
 
 const LoginPage = ({ onLogin }) => {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const savedUser = JSON.parse(localStorage.getItem('registeredUser'));
-    if (savedUser && savedUser.username === formData.username && savedUser.password === formData.password) {
-      onLogin(savedUser);
-      navigate('/kanban');
-    } else {
-      alert('Invalid username or password');
+
+    const { email, password } = formData;
+    const payload = { email, password };
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", payload);// Optionally, call onLogin if needed
+      localStorage.setItem('token', response.data.token);
+      onLogin(response.data.user);
+      // Navigate to the kanban board page
+      navigate("/kanban");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Login failed!');
     }
   };
 
@@ -20,14 +29,16 @@ const LoginPage = ({ onLogin }) => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form className="bg-white p-6 rounded shadow" onSubmit={handleSubmit}>
         <h2 className="font-bold text-lg mb-4">Login</h2>
+        
         <input
-          type="text"
-          placeholder="Username"
+          type="email" // Email field for user login
+          placeholder="Email"
           className="w-full mb-3 p-2 border rounded"
-          value={formData.username}
-          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
+
         <input
           type="password"
           placeholder="Password"
@@ -36,6 +47,7 @@ const LoginPage = ({ onLogin }) => {
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           required
         />
+
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded w-full">
           Login
         </button>
