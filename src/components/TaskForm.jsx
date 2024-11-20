@@ -1,40 +1,61 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const TaskForm = ({ addTask, closeModal, task }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    deadline: '',
-    priority: 'Low',
-    status: 'To Do',
-    category: 'Work',
-    assignee: '',
-    comments: '',
-    sharedUsers: [],
+    title: "",
+    description: "",
+    deadline: "",
+    priority: "low",
+    status: "pending",
+    category: "work",
+    assignedTo: "",
   });
 
-  const availableUsers = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown']; // Example users
+  const [availableUsers, setAvailableUsers] = useState([]);
 
   useEffect(() => {
     if (task) {
       setFormData(task);
     }
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Authentication token
+        const response = await axios.get("http://localhost:5000/api/tasks/users", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setAvailableUsers(response.data); // Assuming response is an array of user objects
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        alert("Failed to load users.");
+      }
+    };
+
+    fetchUsers();
   }, [task]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addTask(formData);
-  };
-
-  const handleShareChange = (e) => {
-    const { options } = e.target;
-    const selectedUsers = [];
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selectedUsers.push(options[i].value);
-      }
+    const token = localStorage.getItem("token"); // Authentication token
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/tasks",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      addTask(response.data); // Pass the created task to the parent
+      closeModal();
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Failed to add task!");
     }
-    setFormData({ ...formData, sharedUsers: selectedUsers });
   };
 
   return (
@@ -45,7 +66,7 @@ const TaskForm = ({ addTask, closeModal, task }) => {
       >
         ✖
       </button>
-      <h2 className="text-xl font-bold mb-4">{task ? 'Edit Task' : 'Add Task'}</h2>
+      <h2 className="text-xl font-bold mb-4">{task ? "Edit Task" : "Add Task"}</h2>
       <form onSubmit={handleSubmit}>
         {/* Title */}
         <input
@@ -78,9 +99,9 @@ const TaskForm = ({ addTask, closeModal, task }) => {
           value={formData.priority}
           onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
         >
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
         </select>
         {/* Status */}
         <select
@@ -88,9 +109,9 @@ const TaskForm = ({ addTask, closeModal, task }) => {
           value={formData.status}
           onChange={(e) => setFormData({ ...formData, status: e.target.value })}
         >
-          <option value="To Do">To Do</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Done">Done</option>
+          <option value="pending">pending</option>
+          <option value="in progress">in progress</option>
+          <option value="completed">completed</option>
         </select>
         {/* Category */}
         <select
@@ -98,39 +119,19 @@ const TaskForm = ({ addTask, closeModal, task }) => {
           value={formData.category}
           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
         >
-          <option value="Work">Work</option>
-          <option value="Personal">Personal</option>
+          <option value="work">work</option>
+          <option value="personal">personal</option>
         </select>
-        {/* Assignee (Dropdown) */}
+        {/* Assignee */}
         <select
           className="w-full mb-3 p-2 border rounded"
-          value={formData.assignee}
-          onChange={(e) => setFormData({ ...formData, assignee: e.target.value })}
+          value={formData.assignedTo}
+          onChange={(e) => setFormData({ ...formData, assignedTo: e.target.value })}
         >
           <option value="">Select Assignee</option>
-          {availableUsers.map((user, index) => (
-            <option key={index} value={user}>
-              {user}
-            </option>
-          ))}
-        </select>
-        {/* Comments */}
-        <textarea
-          placeholder="Add Comments"
-          className="w-full mb-3 p-2 border rounded"
-          value={formData.comments}
-          onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
-        />
-        {/* Share Task */}
-        <select
-          multiple
-          className="w-full mb-3 p-2 border rounded"
-          value={formData.sharedUsers}
-          onChange={handleShareChange}
-        >
-          {availableUsers.map((user, index) => (
-            <option key={index} value={user}>
-              {user}
+          {availableUsers.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.name} {/* Display user name but store user ID */}
             </option>
           ))}
         </select>
@@ -144,7 +145,7 @@ const TaskForm = ({ addTask, closeModal, task }) => {
             Close
           </button>
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-            {task ? 'Update Task' : 'Add Task'}
+            {task ? "Update Task" : "Add Task"}
           </button>
         </div>
       </form>

@@ -1,38 +1,61 @@
-import { useState } from 'react';
-import TaskCard from '../components/TaskCard';
-import TaskForm from '../components/TaskForm';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import TaskCard from "../components/TaskCard";
+import TaskForm from "../components/TaskForm";
 
 const KanbanBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  // Add a new task
-  const addTask = (task) => {
-    if (editingTask) {
-      // Edit an existing task
-      setTasks(tasks.map((t) => (t.id === editingTask.id ? { ...editingTask, ...task } : t)));
-      setEditingTask(null);
-    } else {
-      // Add a new task
-      const newTask = { id: tasks.length + 1, ...task };
-      setTasks([...tasks, newTask]);
-    }
-    setShowForm(false);
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get("http://localhost:5000/api/tasks", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setTasks(response.data);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to load tasks");
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  const addTask = (newTask) => {
+    setTasks((prevTasks) => {
+      if (editingTask) {
+        return prevTasks.map((task) =>
+          task._id === editingTask._id ? { ...task, ...newTask } : task
+        );
+      }
+      return [...prevTasks, newTask];
+    });
+    setEditingTask(null);
   };
 
-  // Edit a task
   const handleEdit = (task) => {
     setEditingTask(task);
     setShowForm(true);
   };
 
-  // Delete a task
-  const handleDelete = (task) => {
-    setTasks(tasks.filter((t) => t.id !== task.id));
+  const handleDelete = async (task) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`http://localhost:5000/api/tasks/${task._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTasks((prevTasks) => prevTasks.filter((t) => t._id !== task._id));
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete task");
+    }
   };
 
-  const columns = ['To Do', 'In Progress', 'Done'];
+  const columns = ["To Do", "In Progress", "Done"];
 
   return (
     <div>
@@ -67,7 +90,7 @@ const KanbanBoard = () => {
               .filter((task) => task.status === column)
               .map((task) => (
                 <TaskCard
-                  key={task.id}
+                  key={task._id}
                   task={task}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
