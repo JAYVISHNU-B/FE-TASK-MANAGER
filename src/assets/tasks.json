@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1,
+      "title": "Complete React Project",
+      "status": "Done",
+      "deadline": "2024-11-20T00:00:00"
+    },
+    {
+      "id": 2,
+      "title": "Prepare for Meeting",
+      "status": "In Progress",
+      "deadline": "2024-11-18T00:00:00"
+    },
+    {
+      "id": 3,
+      "title": "Review Pull Requests",
+      "status": "To Do",
+      "deadline": "2024-11-22T00:00:00"
+    },
+    {
+      "id": 4,
+      "title": "Update Documentation",
+      "status": "To Do",
+      "deadline": "2024-11-25T00:00:00"
+    },
+    {
+      "id": 5,
+      "title": "Fix Bugs in App",
+      "status": "In Progress",
+      "deadline": "2024-11-21T00:00:00"
+    }
+  ]
+  
