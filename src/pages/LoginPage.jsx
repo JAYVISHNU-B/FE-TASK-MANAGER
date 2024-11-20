@@ -14,7 +14,7 @@ const LoginPage = ({ onLogin }) => {
     const payload = { email, password };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", payload);// Optionally, call onLogin if needed
+      const response = await axios.post("http://localhost:5000/api/auth/login", payload); 
       localStorage.setItem('token', response.data.token);
       onLogin(response.data.user);
       // Navigate to the kanban board page
@@ -23,6 +23,10 @@ const LoginPage = ({ onLogin }) => {
       console.error(error);
       toast.error(error.response?.data?.message || 'Login failed!');
     }
+  };
+
+  const handleForgotPassword = () => {
+    navigate('/forgot-password'); // Navigate to ForgotPasswordPage
   };
 
   return (
@@ -51,6 +55,16 @@ const LoginPage = ({ onLogin }) => {
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded w-full">
           Login
         </button>
+
+        <div className="mt-4 text-center">
+          <button 
+            type="button" 
+            onClick={handleForgotPassword} 
+            className="text-blue-500 hover:underline"
+          >
+            Forgot Password?
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -23,12 +23,17 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h2 style={styles.heading}>Forgot Password</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm"
+      >
+        <h2 className="text-xl font-semibold text-gray-700 mb-6">Forgot Password</h2>
 
-        <div style={styles.inputGroup}>
-          <label htmlFor="email" style={styles.label}>Email</label>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-600 mb-2">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -37,97 +42,25 @@ const ForgotPassword = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
+            className="w-full p-3 text-base border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 outline-none"
           />
         </div>
 
-        <button type="submit" style={styles.submitButton}>Send</button>
+        <button
+          type="submit"
+          className="w-full py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+        >
+          Send
+        </button>
       </form>
 
-      <button style={styles.linkButton}>
-        <Link to={"/login"} style={styles.linkText}>Back to Login</Link>
-      </button>
+      <div className="mt-6">
+        <button className="text-blue-600 hover:underline">
+          <Link to="/login">Back to Login</Link>
+        </button>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f3f4f6",
-  },
-  form: {
-    backgroundColor: "#fff",
-    padding: "2rem",
-    borderRadius: "8px",
-    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-    maxWidth: "400px",
-    width: "100%",
-    textAlign: "center",
-  },
-  heading: {
-    marginBottom: "1.5rem",
-    fontSize: "1.8rem",
-    color: "#333",
-  },
-  inputGroup: {
-    marginBottom: "1.5rem",
-  },
-  label: {
-    display: "block",
-    marginBottom: "0.5rem",
-    fontSize: "1rem",
-    color: "#555",
-  },
-  input: {
-    width: "100%",
-    padding: "0.75rem",
-    fontSize: "1rem",
-    border: "1px solid #ddd",
-    borderRadius: "4px",
-    outline: "none",
-    transition: "border-color 0.3s",
-  },
-  submitButton: {
-    width: "100%",
-    padding: "0.75rem",
-    fontSize: "1rem",
-    color: "#fff",
-    backgroundColor: "#3b82f6",
-    borderRadius: "4px",
-    border: "none",
-    cursor: "pointer",
-    transition: "background-color 0.3s",
-    marginTop: "1rem",
-  },
-  linkButton: {
-    marginTop: "1.5rem",
-    backgroundColor: "transparent",
-    border: "none",
-    cursor: "pointer",
-  },
-  linkText: {
-    color: "#3b82f6",
-    textDecoration: "none",
-    fontSize: "1rem",
-  },
-};
-
-// Add hover effects
-styles.input["&:focus"] = {
-  borderColor: "#3b82f6",
-};
-
-styles.submitButton["&:hover"] = {
-  backgroundColor: "#2563eb",
-};
-
-styles.linkText["&:hover"] = {
-  textDecoration: "underline",
 };
 
 export default ForgotPassword;

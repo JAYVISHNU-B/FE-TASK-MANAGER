@@ -5,6 +5,8 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import KanbanPage from './pages/KanbanPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPassword from './pages/ResetPassword';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -28,6 +30,8 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:userId/:token" element={<ResetPassword />} />
         <Route
           path="/kanban"
           element={
