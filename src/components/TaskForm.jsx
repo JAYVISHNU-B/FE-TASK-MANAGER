@@ -13,7 +13,7 @@ const TaskForm = ({ addTask, closeModal, task }) => {
   });
 
   const [availableUsers, setAvailableUsers] = useState([]);
-
+  const [image, setImage] = useState(null);
   useEffect(() => {
     if (task) {
       setFormData(task);
@@ -135,6 +135,19 @@ const TaskForm = ({ addTask, closeModal, task }) => {
             </option>
           ))}
         </select>
+        <p>
+          <label htmlFor="image" className="block mb-2 font-bold">
+            Image
+          </label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            placeholder="Upload Your Blog Image"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </p>
         {/* Buttons */}
         <div className="flex justify-between mt-4">
           <button
