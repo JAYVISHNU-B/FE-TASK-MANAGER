@@ -10,8 +10,9 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_URL;
     await axios
-      .post("http://localhost:5000/api/auth/forgot-password", { email })
+      .post(`${apiUrl}/api/auth/forgot-password`, { email })
       .then((res) => {
         toast.success(res.data.message);
         navigate("/login");

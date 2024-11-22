@@ -14,8 +14,9 @@ const KanbanBoard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       const token = localStorage.getItem("token");
+      const apiUrl = import.meta.env.VITE_API_URL;
       try {
-        const response = await axios.get("http://localhost:5000/api/tasks", {
+        const response = await axios.get(`${apiUrl}/api/tasks`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTasks(response.data);
@@ -94,8 +95,9 @@ const KanbanBoard = () => {
 
   const handleDelete = async (task) => {
     const token = localStorage.getItem("token");
+    const apiUrl = import.meta.env.VITE_API_URL;
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${task._id}`, {
+      await axios.delete(`${apiUrl}/api/tasks/${task._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks((prevTasks) => prevTasks.filter((t) => t._id !== task._id));

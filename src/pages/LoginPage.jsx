@@ -14,7 +14,8 @@ const LoginPage = ({ onLogin }) => {
     const payload = { email, password };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", payload); 
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await axios.post(`${apiUrl}/api/auth/login`, payload); 
       localStorage.setItem('token', response.data.token);
       onLogin(response.data.user);
       // Navigate to the kanban board page

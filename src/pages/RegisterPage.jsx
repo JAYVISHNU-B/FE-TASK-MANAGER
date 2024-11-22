@@ -19,7 +19,8 @@ const RegisterPage = () => {
     const payload = { name, email, password };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", payload);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await axios.post(`${apiUrl}/api/auth/register`, payload);
       toast.success(response.data.message);
       navigate("/login");
     } catch (error) {

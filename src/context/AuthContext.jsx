@@ -10,9 +10,10 @@ export const AuthProvider = ({ children }) => {
   // Check if there is a JWT in localStorage on load
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const apiUrl = import.meta.env.VITE_API_URL;
     if (token) {
       axios
-      .get(`http://localhost:5000/api/auth/api/protected/${token}`)
+      .get(`${apiUrl}/api/auth/api/protected/${token}`)
         .then((res) => {
           setUser(res.data.user);
           setLoading(false);
@@ -28,8 +29,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = (token) => {
     localStorage.setItem('token', token);
+    const apiUrl = import.meta.env.VITE_API_URL;
     axios
-      .get(`http://localhost:5000/api/auth/api/protected/${token}`)
+      .get(`${apiUrl}/api/auth/api/protected/${token}`)
       .then((res) => {
         setUser(res.data.user);
       });

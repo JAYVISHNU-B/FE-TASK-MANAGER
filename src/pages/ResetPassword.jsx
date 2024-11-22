@@ -19,8 +19,9 @@ const ResetPassword = () => {
     }
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await axios.patch(
-        `http://localhost:5000/api/auth/reset-password/${userId}/${token}`,
+        `${apiUrl}/api/auth/reset-password/${userId}/${token}`,
         { password }
       );
       toast.success(response.data.status);

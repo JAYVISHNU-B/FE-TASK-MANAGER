@@ -19,9 +19,10 @@ const TaskForm = ({ addTask, closeModal, task }) => {
       setFormData(task);
     }
     const fetchUsers = async () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
       try {
         const token = localStorage.getItem("token"); // Authentication token
-        const response = await axios.get("http://localhost:5000/api/tasks/users", {
+        const response = await axios.get(`${apiUrl}/api/tasks/users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -51,8 +52,9 @@ const TaskForm = ({ addTask, closeModal, task }) => {
     taskData.append("image", image);
   } // Authentication token
     try {
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await axios.post(
-        "http://localhost:5000/api/tasks",
+        `${apiUrl}/api/tasks`,
         taskData,
         {
           headers: {
