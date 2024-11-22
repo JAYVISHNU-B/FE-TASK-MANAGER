@@ -55,12 +55,12 @@ const KanbanBoard = () => {
     }
   };
 
-  const columns = ["To Do", "In Progress", "Done"];
+  const columns = ["Pending", "In Progress", "Completed"];
 
   return (
     <div>
       <div className="mb-4 flex justify-between">
-        <h1 className="text-2xl font-bold">Kanban Board</h1>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
         <button
           className="bg-green-600 text-white px-4 py-2 rounded"
           onClick={() => {

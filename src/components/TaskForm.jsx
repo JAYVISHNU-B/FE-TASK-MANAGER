@@ -38,11 +38,22 @@ const TaskForm = ({ addTask, closeModal, task }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token"); // Authentication token
+    const token = localStorage.getItem("token");
+    const taskData = new FormData();
+
+  // Append all form fields to the FormData object
+  Object.entries(formData).forEach(([key, value]) => {
+    taskData.append(key, value);
+  });
+
+  // Append the image file if it exists
+  if (image) {
+    taskData.append("image", image);
+  } // Authentication token
     try {
       const response = await axios.post(
         "http://localhost:5000/api/tasks",
-        formData,
+        taskData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
