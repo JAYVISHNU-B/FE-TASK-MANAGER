@@ -132,6 +132,7 @@ const TaskForm = ({ addTask, closeModal, task }) => {
         >
           <option value="work">work</option>
           <option value="personal">personal</option>
+          <option value="project">project</option>
         </select>
         {/* Assignee */}
         <select
