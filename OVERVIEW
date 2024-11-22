@@ -1,0 +1,62 @@
+The Task Management App is a comprehensive platform for task organization, collaboration, and progress tracking, built using the MERN stack, TailwindCSS, and Nodemailer for notifications. It is designed to streamline task management with features such as task creation, editing, deadlines, priority settings, and collaboration tools.
+
+Key Features
+Task Management
+Task Creation:
+
+Create tasks with fields for title, description, deadline, priority, and status.
+Categorize tasks (e.g., work, personal, projects).
+Task Editing & Deletion:
+
+Full CRUD functionality to manage tasks.
+Edit or delete tasks as needed.
+Deadlines & Priorities:
+
+Set deadlines and assign priority levels (low, medium, high).
+Sort tasks by deadlines or priorities for better organization.
+Task Assignments:
+
+Assign tasks to yourself or other users.
+Add due dates and reminders for assignments.
+Collaboration Features
+Task Sharing:
+
+Share tasks or lists with others.
+Set permissions (view-only or edit).
+Comments & Discussions:
+
+Add threaded comments for collaboration on tasks.
+File Attachments:
+
+Upload files/documents for additional context.
+Notifications
+Send email updates for:
+Task updates.
+Approaching deadlines.
+Status changes.
+Progress Tracking
+Status Updates:
+
+Update task status (pending, in progress, completed).
+Visual indicators of task progress.
+Reports & Dashboards:
+
+View task completion rates, deadlines, and progress through reports.
+Graphical insights via charts/graphs.
+User Features
+Authentication:
+
+Secure user registration and login.
+Profile and settings management.
+Dashboard:
+
+Centralized view of tasks, deadlines, and priorities.
+Filters and search options for quick navigation.
+Task Overview:
+
+Summarize completed, pending, and overdue tasks.
+View tasks by category or project.
+Tech Stack
+Backend: Node.js, Express.js, MongoDB.
+Frontend: ReactJS with TailwindCSS for styling.
+Notifications: Nodemailer for email integration.
